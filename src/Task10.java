@@ -15,7 +15,7 @@ public class Task10
 				return true;
 		return false;
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) { //142913828922
 		List<Long> primes = new LinkedList<Long>();
 		primes.add(2L);
 		long number = 3;

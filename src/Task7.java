@@ -24,10 +24,9 @@ public class Task7
 			if (!dividedByElemOfArray(number, primes, i))
 			{
 				primes[i++] = number;
-				System.out.println(number);
 			}
 			number++;
 		}
-		
+		System.out.println(primes[10000]);		
 	}
 }
