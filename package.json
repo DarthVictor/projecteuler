@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "bignumber.js": "^4.0.2"
+    "bignumber.js": "^4.0.2",
+    "number-to-words": "^1.2.3"
   },
   "devDependencies": {},
   "scripts": {
