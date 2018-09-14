@@ -15,46 +15,65 @@ function getTriangleNumber(n) {
 	return n*(n+1)/2;
 }
 
-function numberDevisors(n){
-	var halfN = n/2
-	var devisors = 2
-
-	for(var i = 2; i <= halfN; i++){
-		if(n%i===0) devisors++;
+function numberDevisors(n, primes){
+	let devisors = 1;
+	let t = n;
+	for(let i = 0; i < primes.length && t > 1; i++){
+		const prime = primes[i];
+		let z = 1;
+		while(t % prime === 0) {
+			t /= prime;
+			z += 1;
+		}
+		devisors *= z;
 	}
+
 	return devisors;
 }
-// numberDevisors(28);
-// numberDevisors(28);
 
-// %OptimizeFunctionOnNextCall(numberDevisors);
-// //The next call
-// numberDevisors(28);
-
-// //Check
-// printStatus(numberDevisors);
-
-var i = 1
-var triangleNumber = 1
-
-var maxDevisors = 2
-var currentDevisors = 2
-var t_0 = Date.now()
-//5984 17907120 480
-// > 11000
-while(maxDevisors <= 500){
-	i += 1
-	triangleNumber += i
-	currentDevisors = numberDevisors(triangleNumber)
-	if(maxDevisors < currentDevisors){
-		maxDevisors = currentDevisors
-		console.log(i, triangleNumber, currentDevisors)
+function getPrimes(MAX_N){
+	const d0 = Date.now()
+	const numbers = Array(MAX_N+1).fill(0).map((_, i) => i);
+	numbers[1] = 0;
+	for (let i = 2; i <= MAX_N; i++){
+		if (numbers[i] > 0) {
+			for (let j = 2*i; j <= MAX_N; j += i){
+				numbers[j] = 0;
+			}
+		}
 	}
-	if(i % 1000 === 0){
-		console.log('i =', i, 'time elapsed', Date.now() - t_0, 'ms')		
-	}
+
+	return numbers.filter(Boolean);
 }
-console.log('Time elapsed', Date.now() - t_0, 'ms')
+
+function getFirstTriangles(MAX_N) {
+	const primes = getPrimes(1000000);
+	const allDevisors = Array(MAX_N + 1)
+	allDevisors[1] = 3;
+	var i = 1
+	var triangleNumber = 1
+
+	var maxDevisors = 1
+	var currentDevisors = 1
+	while(maxDevisors <= MAX_N){
+		i += 1
+		triangleNumber += i
+		currentDevisors = numberDevisors(triangleNumber, primes);
+		if(maxDevisors < currentDevisors){
+			for(let j = maxDevisors; j < currentDevisors; j++) {
+				allDevisors[j] = triangleNumber;
+			}
+			maxDevisors = currentDevisors
+		}
+	}
+	return allDevisors;
+}
+
+const d0 = Date.now();
+
+const t = getFirstTriangles(1000)
+
+console.log(Date.now() - d0)
 
 /* 
 JS: 
