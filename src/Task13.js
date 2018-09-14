@@ -99,9 +99,21 @@ const text =
 72107838435069186155435662884062257473692284509516
 20849603980134001723930671666823555245252804609722
 53503534226472524250874054075591789781264330331690`
-const BigNumber = require('bignumber.js')
-let sum = new BigNumber(0)
-text.split('\n').forEach(line =>{
-    sum = sum.plus(new BigNumber(line))
-})
-console.log(sum.toString())
+
+//5537376230390876637302048746832985971773659831892672
+
+const DIGITS = 50;
+const grid = text.split('\n').map(line => line.split('').map(Number));
+const ans = [];
+let sumPrev = 0;
+for(let col = DIGITS - 1; col >= 0; col -= 1) {
+    let sum = sumPrev;
+    for(let row = 0; row < grid.length; row+= 1) {
+        sum += grid[row][col];
+    }
+    ans.unshift(sum % 10);
+    sumPrev = (sum - ans[0])/10;
+}
+ans.unshift(sumPrev);
+
+console.log(ans.join(''))
